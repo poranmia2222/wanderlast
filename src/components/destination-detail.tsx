@@ -12,19 +12,16 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import EditDestinationDialog from "./destinaation/EditDestinationDialog";
 
-export function DetailActions() {
+
+
+export function DetailActions({destination}) {
   const router = useRouter();
 
   return (
     <div className="flex items-center gap-3">
-      <Button
-        variant="outline"
-        onClick={() => toast.info("Edit coming soon")}
-      >
-        <PenLineIcon />
-        Edit
-      </Button>
+      <EditDestinationDialog destination={destination}/>
       <Button
         variant="outline"
         className="border-destructive/40 text-destructive hover:bg-destructive/10"

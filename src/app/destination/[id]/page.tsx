@@ -74,10 +74,10 @@ export default async function DestinationDetailsPage(
           <ArrowLeftIcon className="size-4" />
           Back to Destinations
         </Link>
-        <DetailActions />
+        <DetailActions destination={destination}/>
       </div>
 
-      <div className="relative mt-6 aspect-[12/5] w-full overflow-hidden rounded-lg bg-muted">
+      <div className="relative mt-6 aspect-12/5 w-full overflow-hidden rounded-lg bg-muted">
         <Image
           src={destination.imageUrl}
           alt={destination.destinationName}
