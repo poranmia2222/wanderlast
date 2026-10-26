@@ -133,3 +133,12 @@
     @apply font-sans;
   }
 }
+
+/* Full-screen auth pages (/signin, /signup): hide the shared site chrome */
+body:has(main[data-page="auth"]) > header,
+body:has(main[data-page="auth"]) > footer {
+  display: none;
+}
+body:has(main[data-page="auth"]) {
+  background: #eef3f6;
+}

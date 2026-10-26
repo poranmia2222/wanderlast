@@ -13,8 +13,8 @@ const navLinks = [
 
 const accountLinks = [
   { label: "Profile", href: "#", icon: User },
-  { label: "Login", href: "#" },
-  { label: "Sign Up", href: "#" },
+  { label: "Login", href: "/signin" },
+  { label: "Sign Up", href: "/signup" },
 ];
 
 function isLinkActive(pathname: string, href: string) {
@@ -58,10 +58,13 @@ export function Navbar() {
         <ul className="flex items-center gap-6 text-sm font-medium">
           {accountLinks.map(({ label, href, icon: Icon }) => (
             <li key={label}>
-              <a href={href} className="flex items-center gap-1.5 hover:text-brand">
+              <Link
+                href={href}
+                className="flex items-center gap-1.5 hover:text-brand"
+              >
                 {Icon ? <Icon className="size-4" aria-hidden /> : null}
                 {label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

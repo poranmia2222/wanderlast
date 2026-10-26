@@ -12,11 +12,13 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import EditDestinationDialog from "./destinaation/EditDestinationDialog";
+import EditDestinationDialog, {
+  type Destination,
+} from "./destinaation/EditDestinationDialog";
 
 
 
-export function DetailActions({destination}) {
+export function DetailActions({ destination }: { destination: Destination }) {
   const router = useRouter();
 
   return (

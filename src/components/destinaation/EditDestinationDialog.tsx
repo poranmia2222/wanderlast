@@ -55,11 +55,30 @@ const EMPTY_FORM = {
 
 type FormState = typeof EMPTY_FORM;
 
+/** A destination as returned by the API. `price` may arrive as a number. */
+export type Destination = {
+    destinationName: string;
+    country: string;
+    category: string;
+    price: number | string;
+    duration: string;
+    departureDate: string;
+    imageUrl: string;
+    description: string;
+    _id: string;
+};
+
+type EditableForm = Omit<Destination, "_id">;
 
 
-const EditDestinationDialog = ({ destination }) => {
 
-    const [form, setForm] = useState<FormState>(destination);
+const EditDestinationDialog = ({
+  destination,
+}: {
+  destination: Destination;
+}) => {
+
+    const [form, setForm] = useState<EditableForm>(destination);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const setField = (field: keyof FormState, value: string) => {
@@ -71,14 +90,13 @@ const EditDestinationDialog = ({ destination }) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
-        const {_id, ...formData} = form;
         try {
             const res = await fetch(`http://localhost:8000/destination/${destination._id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(form),
             });
 
             if (!res.ok) {
