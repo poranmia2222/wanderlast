@@ -74,7 +74,7 @@ export default async function DestinationDetailsPage(
           <ArrowLeftIcon className="size-4" />
           Back to Destinations
         </Link>
-        <DetailActions destination={destination}/>
+        <DetailActions destination={destination} />
       </div>
 
       <div className="relative mt-6 aspect-12/5 w-full overflow-hidden rounded-lg bg-muted">
@@ -133,8 +133,7 @@ export default async function DestinationDetailsPage(
 
         <aside>
           <BookingPanel
-            name={destination.destinationName}
-            price={destination.price}
+            destination={destination}
             departureDate={formatDepartureDate(destination.departureDate)}
           />
         </aside>

@@ -18,20 +18,35 @@ export function SignUpForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+
     const formData = new FormData(e.currentTarget)
     const data = Object.fromEntries(formData.entries())
-    const {data:resData, error} = await signUp.email({
+
+    if (data.password !== data.confirmPassword) {
+      setLoading(false);
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    const { error } = await signUp.email({
       name: data.name as string,
       email: data.email as string,
       password: data.password as string
     })
-     if (error) {
-            console.error(error.message);
-            return;
-        }
-        console.log(resData);
+
+    if (error) {
+      setLoading(false);
+      toast.error("Sign up failed", {
+        description: error.message ?? "Please try again.",
+      });
+      return;
+    }
+
+    toast.success("Account created successfully!");
+    router.push("/signin");
   }
 
   return (

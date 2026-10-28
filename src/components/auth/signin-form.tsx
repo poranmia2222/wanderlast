@@ -16,30 +16,31 @@ import {
 
 export function SignInForm() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      const { error } = await signIn.email({
-        email: email.trim(),
-        password,
-        rememberMe,
-        callbackURL: "/",
-      });
-      if (error) {
-        toast.error(error.message ?? "Invalid email or password");
-        return;
-      }
-      toast.success("Welcome back!");
-      router.push("/");
-    } finally {
+
+    const formData = new FormData(e.currentTarget)
+    const data = Object.fromEntries(formData.entries())
+
+    const { error } = await signIn.email({
+      email: data.email as string,
+      password: data.password as string,
+      callbackURL: "/"
+    })
+
+    if (error) {
       setLoading(false);
+      toast.error("Sign in failed", {
+        description: error.message ?? "Please check your credentials and try again.",
+      });
+      return;
     }
+
+    toast.success("Signed in successfully!");
+    router.push("/");
   }
 
   return (
@@ -57,8 +58,6 @@ export function SignInForm() {
           autoComplete="email"
           placeholder="Enter your email"
           required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
         />
         <AuthField
           id="signin-password"
@@ -69,8 +68,6 @@ export function SignInForm() {
           autoComplete="current-password"
           placeholder="Enter your password"
           required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
         />
 
         <div className="flex items-center justify-between pt-1 text-sm">
@@ -78,8 +75,6 @@ export function SignInForm() {
             <input
               type="checkbox"
               name="rememberMe"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
               className="size-3.5 accent-[#1ca7c4]"
             />
             Remember me
