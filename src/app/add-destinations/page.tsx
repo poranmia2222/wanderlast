@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { authClient } from "@/lib/auth-client";
 
 const CATEGORIES = [
   { value: "beach", label: "Beach" },
@@ -56,11 +57,15 @@ export default function AddDestinationPage() {
     e.preventDefault();
     setIsSubmitting(true);
 
+    const {data, error} = await authClient.token()
+    const token = data?.token
+
     try {
       const res = await fetch("http://localhost:8000/add-destination", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token}`
         },
         body: JSON.stringify(form),
       });

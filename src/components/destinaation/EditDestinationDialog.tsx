@@ -116,8 +116,13 @@ const EditDestinationDialog = ({
 
     return (
         <Dialog>
-            <DialogTrigger>
-                <Button className="flex items-center gap-3 border p-2 rounded-xl"> <PenLineIcon width={20} height={20} className='' />Edit</Button>
+            <DialogTrigger
+                render={
+                    <Button className="flex items-center gap-3 border p-2 rounded-xl" />
+                }
+            >
+                <PenLineIcon width={20} height={20} className='' />
+                Edit
             </DialogTrigger>
             <DialogContent className="min-w-120">
                 <DialogHeader>

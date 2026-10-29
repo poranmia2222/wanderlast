@@ -51,9 +51,20 @@ export function DestinationsGrid({ destinations }: { destinations: Destination[]
   const [priceRange, setPriceRange] = useState("all");
   const [sortBy, setSortBy] = useState("featured");
 
+  // The API can return the same destination (same _id) more than once;
+  // duplicates would break React keys and double-render destination cards.
+  const unique = useMemo(() => {
+    const seen = new Set<string>();
+    return destinations.filter((d) => {
+      if (seen.has(d._id)) return false;
+      seen.add(d._id);
+      return true;
+    });
+  }, [destinations]);
+
   const categories = useMemo(
-    () => Array.from(new Set(destinations.map((d) => d.category))),
-    [destinations]
+    () => Array.from(new Set(unique.map((d) => d.category))),
+    [unique]
   );
 
   const categoryOptions = useMemo(
@@ -65,7 +76,7 @@ export function DestinationsGrid({ destinations }: { destinations: Destination[]
 
   const visible = useMemo(() => {
     const [min, max] = priceRange.split("-");
-    let result = destinations.filter((d) => {
+    let result = unique.filter((d) => {
       if (category !== "all" && d.category !== category) return false;
       if (priceRange !== "all") {
         if (max === "above" && d.price < Number(min)) return false;
@@ -93,7 +104,7 @@ export function DestinationsGrid({ destinations }: { destinations: Destination[]
         break;
     }
     return result;
-  }, [destinations, category, priceRange, sortBy]);
+  }, [unique, category, priceRange, sortBy]);
 
   return (
     <div className="mt-10">

@@ -1,5 +1,4 @@
 import React from "react";
-import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { BookingList, type Booking } from "@/components/my-bookings/booking-list";
@@ -20,11 +19,7 @@ export default async function MyBookingsPage() {
   const session = await auth.api.getSession({ headers: await headers() });
   const user = session?.user;
 
-  if (!user?.email) {
-    redirect("/signin");
-  }
-
-  const bookings = await getBookings(user.email);
+  const bookings = user?.email ? await getBookings(user.email) : [];
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-10">
