@@ -98,7 +98,7 @@ export function BookingCard({
     setIsDeleting(true);
     try {
       const res = await fetch(
-        `http://localhost:8000/my-bookings/${booking._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/my-bookings/${booking._id}`,
         {
           method: "DELETE",
         }

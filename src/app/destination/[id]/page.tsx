@@ -13,6 +13,7 @@ import {
 import { BookingPanel, DetailActions } from "@/components/destination-detail";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { getTokenFromServer } from "@/lib/getTokenFromServer";
 
 export const metadata = { title: "Destination Details" };
 
@@ -59,11 +60,9 @@ export default async function DestinationDetailsPage(
 ) {
   const { id } = await props.params;
 
-  const jwtToken = await auth.api.getToken({
-    headers: await headers()
-  })
-  const token = jwtToken?.token
-  const res = await fetch(`http://localhost:8000/destination/${id}`, {
+  const token = await getTokenFromServer()
+  
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/destination/${id}`, {
     headers: {
       authorization: `Bearer ${token}`
     }

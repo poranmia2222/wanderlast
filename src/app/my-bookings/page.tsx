@@ -5,10 +5,9 @@ import { BookingList, type Booking } from "@/components/my-bookings/booking-list
 
 export const metadata = { title: "My Bookings" };
 
-const API_BASE = "http://localhost:8000";
 
 async function getBookings(email: string): Promise<Booking[]> {
-  const res = await fetch(`${API_BASE}/my-bookings/${email}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-bookings/${email}`);
   if (!res.ok) {
     throw new Error(`Failed to fetch bookings (status ${res.status})`);
   }

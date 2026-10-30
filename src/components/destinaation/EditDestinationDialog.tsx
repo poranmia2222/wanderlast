@@ -25,6 +25,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { getTokenFromClient } from '@/lib/getTokenFromClient';
 
 
 const CATEGORIES = [
@@ -83,11 +84,13 @@ const EditDestinationDialog = ({
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
+        const token = await getTokenFromClient()
         try {
-            const res = await fetch(`http://localhost:8000/destination/${destination._id}`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/destination/${destination._id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
+                    authorization:`Bearer ${token}`
                 },
                 body: JSON.stringify(form),
             });

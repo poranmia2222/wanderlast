@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const CATEGORIES = [
   { value: "beach", label: "Beach" },
@@ -57,11 +58,10 @@ export default function AddDestinationPage() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const {data, error} = await authClient.token()
-    const token = data?.token
 
+    const token = await getTokenFromClient()
     try {
-      const res = await fetch("http://localhost:8000/add-destination", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/add-destination`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
