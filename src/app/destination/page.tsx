@@ -5,7 +5,7 @@ import { DestinationsGrid, type Destination } from "@/components/destinations-gr
 export const metadata = { title: "All Destinations" };
 
 async function getDestinations(): Promise<Destination[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/destinations`{
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/destinations`,{
     cache: 'no-store'
   });
   if (!res.ok) {
